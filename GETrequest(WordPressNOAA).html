@@ -1,0 +1,142 @@
+//Example for NOAA15 Archive,
+//Similarly just changing satelliteID in the URL it can be applied for NOAA18 and NOAA19
+<code>
+<div id="meteor_row" class="row">&nbsp;</div>
+
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <h2 id="modal-title"></h2>
+  <img class="modal-content" id="img01">
+</div>
+
+<script async="">
+  var parent = document.getElementById("meteor_row");
+  fetch(
+    "https://django.emreserdar.com/satellite/list/?satelliteID=15",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
+  .then((response) => response.json())
+  .then((data) =>
+    data.map((item, index) => {
+        const parentDiv = document.createElement("div");
+        parentDiv.className = "column";
+        // create image element
+        const image = document.createElement("img");
+        image.className = "api-content-image";
+        image.src = item.get_image;
+        image.alt = "NOAA18 Image " + index;
+        // attach onclick event to open modal
+        image.onclick = function(){
+          document.getElementById("myModal").style.display = "block";
+          document.getElementById("img01").src = this.src;
+          document.getElementById("modal-title").innerHTML = item.title;
+        }
+        const timeStamp = document.createElement("p");
+        timeStamp.className = "time-stamp";
+        const timeStampText = document.createTextNode(item.title);
+        timeStamp.appendChild(timeStampText);
+        parentDiv.appendChild(image);
+        parentDiv.appendChild(timeStamp);
+        parent.appendChild(parentDiv);
+    })
+  );
+  // Close modal on click outside
+  window.onclick = function(event) {
+    if (event.target == document.getElementById("myModal")) {
+        document.getElementById("myModal").style.display = "none";
+    }
+  }
+  // Close modal on click close button
+  document.getElementsByClassName("close")[0].onclick = function() {
+    document.getElementById("myModal").style.display = "none";
+  }
+</script>
+<style>
+  .row {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center;
+  }
+  .column {
+    width: 125px;
+    height: 215px;
+    overflow: hidden;
+    margin: 5px;
+    padding: 5px;
+    border: 1px outset;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .api-content-image {
+    height: 50%;
+    width: 100%;
+    object-fit: cover;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  .time-stamp {
+    color: black;
+    text-align: center;
+    margin-top: 10px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 95%;
+  }
+    /* Modal container */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999999999;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+  }
+  /* Modal content */
+  .modal-content {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    max-width: 700px;
+  }
+  /* Close button */
+  .close {
+    color: #fff;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  /* Close button hover */
+  .close:hover,
+  .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  #modal-title{
+    text-align: center;
+  }
+  h3{
+    color: black;
+    font-weight: bold;
+    margin-bottom: 10px;
+   
+  }
+
+</style>
+</code>
