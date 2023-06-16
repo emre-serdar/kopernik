@@ -97,7 +97,7 @@ To deploy the Kopernik project, follow the steps below:
 ## Contributors
 
 - [Emre Serdar](https://github.com/emre-serdar)
-- [Berk Cohadar](https://github.com/berkcohadar)
+
 
 Feel free to contribute to this project by submitting bug reports, feature requests, or pull requests.
 
